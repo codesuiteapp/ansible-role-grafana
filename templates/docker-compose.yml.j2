@@ -1,0 +1,43 @@
+version: "3"
+services:
+  grafana:
+    image: ${DOCKER_IMAGE}
+    container_name: grafana
+    user: "0" # "{{ grafana_user }}"
+    # privileged: true
+    environment:
+      - TZ=Asia/Seoul
+      - GF_SERVER_ROOT_URL={{ grafana_domain }}
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      # - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+{% if use_traefik %}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`${TRF_DOMAIN}`) && PathPrefix(`/grafana`)"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls=true"
+{% endif %}
+    volumes:
+      - ./grafana.ini:/etc/grafana/grafana.ini
+      - {{ grafana_data }}:/var/lib/grafana
+      - {{ grafana_logs }}:/var/log/grafana
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "{{ grafana_port }}:3000"
+    restart: unless-stopped
+{% if use_extra_hosts %}
+    extra_hosts:
+    {% for host in extra_hosts %}
+    - {{ host }}
+    {% endfor %}
+{% endif %}
+{% if use_dkr_net %}
+    networks:
+      - {{ dkr_network }}
+
+networks:
+  {{ dkr_network }}:
+    external: true
+{% endif %}

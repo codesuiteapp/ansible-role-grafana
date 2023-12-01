@@ -1,0 +1,22 @@
+---
+image_registry_server: "docker.io"
+grafana_image: "sonatype/grafana3"
+grafana_ver: "latest"
+grafana_port: 8080
+grafana_user: "200"
+grafana_domain: devops.com
+
+docker_compose_bin: "docker-compose"
+use_dkr_net: false
+dkr_network: devops_net
+use_extra_hosts: false
+add_etc_host: "10.11.22.10   devops.com"
+
+app_home_dir: /app
+app_data_dir: /data
+nexus_data: "{{ app_data_dir }}/m2/repository"
+
+create_user: false
+adm_user: "appadm"
+adm_group: "appadm"
+adm_uid: "1000"

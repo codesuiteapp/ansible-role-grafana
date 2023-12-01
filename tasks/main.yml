@@ -1,0 +1,28 @@
+---
+- name: Creates directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ adm_user }}"
+    group: "{{ adm_group }}"
+    mode: '0775'
+    force: false
+  with_items:
+    - "{{ grafana_home }}"
+    - "{{ grafana_data }}"
+    - "{{ grafana_logs }}"
+
+- name: Copy file
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ adm_user }}"
+    group: "{{ adm_group }}"
+    mode: '0644'
+    backup: true
+  with_items:
+    - { src: '.env.j2', dest: '{{ grafana_home }}/.env' }
+    - { src: 'docker-compose.yml.j2', dest: '{{ grafana_home }}/docker-compose.yml' }
+    - { src: 'grafana.ini.j2', dest: '{{ grafana_home }}/grafana.ini' }
+  notify:
+    Restart grafana

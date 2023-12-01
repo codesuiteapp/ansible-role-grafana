@@ -1,0 +1,5 @@
+---
+grafana_home: "{{ app_home_dir }}/grafana-docker"
+grafana_data: "{{ app_data_dir }}/grafana"
+grafana_logs: "{{ app_logs_dir }}/grafana"
+extra_hosts: ["devops.com:10.11.22.33"]
