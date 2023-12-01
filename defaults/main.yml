@@ -14,6 +14,7 @@ add_etc_host: "10.11.22.10   devops.com"
 
 app_home_dir: /app
 app_data_dir: /data
+app_logs_dir: /log
 
 create_user: false
 adm_user: "appadm"
