@@ -15,9 +15,11 @@ services:
 {% if use_traefik %}
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.grafana.entrypoints=web,websecure"
       - "traefik.http.routers.grafana.rule=Host(`${TRF_DOMAIN}`) && PathPrefix(`/grafana`)"
-      - "traefik.http.routers.grafana.entrypoints=websecure"
+    {% if use_traefik_tls %}
       - "traefik.http.routers.grafana.tls=true"
+    {% endif %}
 {% endif %}
     volumes:
       - ./grafana.ini:/etc/grafana/grafana.ini
