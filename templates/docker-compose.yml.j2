@@ -22,7 +22,7 @@ services:
     {% endif %}
 {% endif %}
     volumes:
-      - ./grafana.ini:/etc/grafana/grafana.ini
+      - {{ grafana_home }}/grafana.ini:/etc/grafana/grafana.ini
       - {{ grafana_data }}:/var/lib/grafana
       - {{ grafana_logs }}:/var/log/grafana
       - /etc/localtime:/etc/localtime:ro
