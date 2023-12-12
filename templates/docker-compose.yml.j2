@@ -3,7 +3,7 @@ services:
   grafana:
     image: ${DOCKER_IMAGE}
     container_name: grafana
-    user: "0" # "{{ grafana_user }}"
+    {# user: "0" # "{{ grafana_user }}" #}
     # privileged: true
     environment:
       - TZ=Asia/Seoul

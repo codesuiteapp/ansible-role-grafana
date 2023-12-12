@@ -5,7 +5,7 @@
     state: directory
     owner: "{{ adm_user }}"
     group: "{{ adm_group }}"
-    mode: '0775'
+    mode: '0755'
     force: false
   with_items:
     - "{{ grafana_home }}"
