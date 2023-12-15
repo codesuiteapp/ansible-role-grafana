@@ -4,7 +4,7 @@ grafana_image: "grafana/grafana-oss"
 grafana_ver: "latest"
 grafana_port: 3000
 grafana_user: "472"
-grafana_url: "devops.com:{{ grafana_port }}"
+grafana_domain: "devops.com"
 
 docker_compose_bin: "docker-compose"
 use_dkr_net: false
