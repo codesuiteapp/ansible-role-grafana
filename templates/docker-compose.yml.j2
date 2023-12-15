@@ -16,7 +16,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.entrypoints=web,websecure"
-      - "traefik.http.routers.grafana.rule=Host(`${TRF_DOMAIN}`) && PathPrefix(`/grafana`)"
+      - "traefik.http.routers.grafana.rule=Host(`${trf_domain}`) && PathPrefix(`/grafana`)"
     {% if use_traefik_tls %}
       - "traefik.http.routers.grafana.tls=true"
     {% endif %}
