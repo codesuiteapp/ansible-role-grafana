@@ -12,14 +12,24 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       # - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
-{% if use_traefik %}
     labels:
+{% if use_traefik %}
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.entrypoints=web,websecure"
       - "traefik.http.routers.grafana.rule=Host(`${trf_domain}`) && PathPrefix(`/grafana`)"
     {% if use_traefik_tls %}
       - "traefik.http.routers.grafana.tls=true"
     {% endif %}
+{% endif %}
+{% if use_flame %}
+      - "flame.type=application"
+      - "flame.name=grafana"
+{% if use_traefik %}
+      - "flame.url=http://{{ trf_domain }}/grafana"
+{% endif %}
+{% if not use_traefik %}
+      - "flame.url=http://{{ grafana_domain }}:{{ grafana_port }}"
+{% endif %}
 {% endif %}
     volumes:
       - {{ grafana_home }}/grafana.ini:/etc/grafana/grafana.ini
