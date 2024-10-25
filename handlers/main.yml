@@ -1,15 +1,23 @@
+---
 - name: Start grafana
   ansible.builtin.command: "{{ docker_compose_bin }} up --detach"
   args:
     chdir: "{{ grafana_home }}"
   register: result
-  changed_when: result.changed
+  changed_when: result.rc == 0
 
-- name: Restart grafana
-  ansible.builtin.shell:
-    "{{ docker_compose_bin }} down; {{ docker_compose_bin }} up --detach"
+- name: Stop grafana
+  ansible.builtin.command: "{{ docker_compose_bin }} down"
   args:
     chdir: "{{ grafana_home }}"
   register: result
-  changed_when: result.changed
-  ignore_errors: true
+  changed_when: result.rc == 0
+
+- name: Restart grafana
+  ansible.builtin.shell: |
+    {{ docker_compose_bin }} down
+    {{ docker_compose_bin }} up --detach
+  args:
+    chdir: "{{ grafana_home }}"
+  register: result
+  changed_when: result.rc == 0
